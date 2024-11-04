@@ -1,0 +1,299 @@
+{
+	"info": {
+		"_postman_id": "fc59a86e-58bc-4ed5-8d30-80b05db62c20",
+		"name": "API_Brite",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "39311440"
+	},
+	"item": [
+		{
+			"name": "Berries (id)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", () => {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"const response = pm.response.json();",
+							"",
+							"pm.test(\"Response is correct\", () => {",
+							"    pm.expect(response).to.be.an('object');",
+							"    pm.expect(response).to.have.all.keys('firmness', 'flavors', 'growth_time', 'id', 'item', 'max_harvest', 'name', 'natural_gift_power', 'natural_gift_type', 'size', 'smoothness', 'soil_dryness');",
+							"    pm.expect(response.id).to.be.a('number');",
+							"    pm.expect(response.name).to.be.an('string').and.to.equal('persim');",
+							"",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.set('BaseURL', 'https://pokeapi.co')"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseURL}}/api/v2/berry/8",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"api",
+						"v2",
+						"berry",
+						"8"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Berries - invalid ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", () => {",
+							"    pm.response.to.have.status(404);",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://pokeapi.co/api/v2/berry/999",
+					"protocol": "https",
+					"host": [
+						"pokeapi",
+						"co"
+					],
+					"path": [
+						"api",
+						"v2",
+						"berry",
+						"999"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Berries (name)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", () => {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"const response = pm.response.json();",
+							"",
+							"pm.test(\"Response is correct\", () => {",
+							"    pm.expect(response).to.be.an('object');",
+							"    pm.expect(response).to.have.all.keys('firmness', 'flavors', 'growth_time', 'id', 'item', 'max_harvest', 'name', 'natural_gift_power', 'natural_gift_type', 'size', 'smoothness', 'soil_dryness');",
+							"    pm.expect(response.id).to.be.a('number');",
+							"    pm.expect(response.name).to.be.an('string').and.to.equal('cheri');",
+							"",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://pokeapi.co/api/v2/berry/cheri",
+					"protocol": "https",
+					"host": [
+						"pokeapi",
+						"co"
+					],
+					"path": [
+						"api",
+						"v2",
+						"berry",
+						"cheri"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Berries - invalid name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", () => {",
+							"    pm.response.to.have.status(404);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://pokeapi.co/api/v2/berry/lemon",
+					"protocol": "https",
+					"host": [
+						"pokeapi",
+						"co"
+					],
+					"path": [
+						"api",
+						"v2",
+						"berry",
+						"lemon"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Berry Flavors - spicy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", () => {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"const response = pm.response.json();",
+							"",
+							"pm.test(\"Response contains expected properties\", () => {",
+							"    pm.expect(response.berries.length);",
+							"    //console.log(response.berries.length);",
+							"    pm.expect(response).to.have.all.keys('berries', 'contest_type', 'id', 'name', 'names');",
+							"    pm.expect(response.id).to.be.a('number');",
+							"    pm.expect(response.berries).to.be.an('array');",
+							"    pm.expect(response).to.have.property(\"name\", \"spicy\");",
+							"});",
+							"",
+							"const maxPotency = response.berries.reduce((max, berry) => ",
+							"    Math.max(max, berry.potency), 0",
+							");",
+							"console.log(maxPotency);",
+							"",
+							"const mostPotentBerry = response.berries.find(berry => berry.potency === maxPotency);",
+							"",
+							"console.log(maxPotency, mostPotentBerry);",
+							"",
+							"pm.collectionVariables.set('superBerry', maxPotency)"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://pokeapi.co/api/v2/berry-flavor/spicy",
+					"protocol": "https",
+					"host": [
+						"pokeapi",
+						"co"
+					],
+					"path": [
+						"api",
+						"v2",
+						"berry-flavor",
+						"spicy"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Spicy with more “potency”",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", () => {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"const response = pm.response.json();",
+							"",
+							"pm.test(\"Response is correct\", () => {",
+							"    pm.expect(response).to.be.an('object');",
+							"    pm.expect(response).to.have.all.keys('firmness', 'flavors', 'growth_time', 'id', 'item', 'max_harvest', 'name', 'natural_gift_power', 'natural_gift_type', 'size', 'smoothness', 'soil_dryness');",
+							"    pm.expect(response.id).to.be.a('number').and.to.equal(60);",
+							"    pm.expect(response.name).to.be.an('string').and.to.equal('enigma');",
+							"",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://pokeapi.co/api/v2/berry/enigma",
+					"protocol": "https",
+					"host": [
+						"pokeapi",
+						"co"
+					],
+					"path": [
+						"api",
+						"v2",
+						"berry",
+						"enigma"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "BaseURL",
+			"value": ""
+		},
+		{
+			"key": "superBerry",
+			"value": ""
+		}
+	]
+}
